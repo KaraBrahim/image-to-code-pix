@@ -1,16 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from 'react';
+import { useStore } from '@/lib/store';
+import TopBar from '@/features/shell/TopBar';
+import BottomNav from '@/features/shell/BottomNav';
+import ScannerView from '@/features/scanner/ScannerView';
+import CsvUpload from '@/features/config/CsvUpload';
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+type Tab = 'scan' | 'config';
+
+const Index = () => {
+  const [activeTab, setActiveTab] = useState<Tab>('scan');
+  const loadProducts = useStore(s => s.loadProducts);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="flex flex-col h-[100dvh] bg-background">
+      <TopBar title="ScanFlow" />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {activeTab === 'scan' && <ScannerView />}
+        {activeTab === 'config' && <CsvUpload />}
+      </div>
+      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
