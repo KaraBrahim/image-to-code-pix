@@ -19,29 +19,29 @@ const ResultCard = ({ result, visible, isDuplicate, onDismiss }: ResultCardProps
 
   return (
     <div
-      className={`fixed bottom-0 inset-x-0 z-50 px-4 pb-8 pt-2 ${isDuplicate ? 'animate-shake' : 'animate-slide-up'}`}
+      className={`absolute bottom-2 inset-x-2 z-50 ${isDuplicate ? 'animate-shake' : 'animate-slide-up'}`}
     >
-      <div className={`glass rounded-2xl p-5 mx-auto max-w-md border ${found ? 'border-success/30' : 'border-destructive/30'}`}>
+      <div className={`glass rounded-2xl p-4 border ${found ? 'border-success/30' : 'border-destructive/30'}`}>
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${found ? 'bg-success/20' : 'bg-destructive/20'}`}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2.5">
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${found ? 'bg-success/20' : 'bg-destructive/20'}`}>
               {found ? (
-                <PackageCheck className="w-5 h-5 text-success" />
+                <PackageCheck className="w-4.5 h-4.5 text-success" />
               ) : (
-                <PackageX className="w-5 h-5 text-destructive" />
+                <PackageX className="w-4.5 h-4.5 text-destructive" />
               )}
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase">
                 {found ? 'Product Found' : 'Not Found'}
               </p>
-              <p className="text-xs text-muted-foreground/60 font-mono mt-0.5">{result.barcode}</p>
+              <p className="text-[11px] text-muted-foreground/60 font-mono mt-0.5 truncate">{result.barcode}</p>
             </div>
           </div>
           <button
             onClick={onDismiss}
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-muted/50 transition-colors active:scale-95"
+            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-muted/50 transition-colors active:scale-95 shrink-0"
           >
             <X className="w-4 h-4 text-muted-foreground" />
           </button>
@@ -49,18 +49,18 @@ const ResultCard = ({ result, visible, isDuplicate, onDismiss }: ResultCardProps
 
         {/* Product details */}
         {found && result.product && (
-          <div className="space-y-2">
-            <h3 className="text-lg font-semibold text-foreground leading-tight">
+          <div className="space-y-1.5">
+            <h3 className="text-base font-semibold text-foreground leading-tight">
               {result.product.name}
             </h3>
             {result.product.price && (
-              <p className="text-2xl font-bold text-primary">{result.product.price}</p>
+              <p className="text-xl font-bold text-primary">{result.product.price}</p>
             )}
             {result.product.description && (
-              <p className="text-sm text-muted-foreground leading-relaxed">{result.product.description}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{result.product.description}</p>
             )}
             {result.product.category && (
-              <span className="inline-block text-xs font-medium px-2.5 py-1 rounded-full bg-primary/10 text-primary">
+              <span className="inline-block text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                 {result.product.category}
               </span>
             )}
@@ -68,8 +68,8 @@ const ResultCard = ({ result, visible, isDuplicate, onDismiss }: ResultCardProps
         )}
 
         {!found && (
-          <p className="text-sm text-muted-foreground">
-            This barcode is not in your product database. Import a CSV with this barcode to see details.
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            This barcode is not in your product database.
           </p>
         )}
       </div>

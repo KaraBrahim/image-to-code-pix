@@ -22,7 +22,6 @@ const CsvUpload = () => {
       complete: async (results) => {
         const data = results.data as Record<string, string>[];
 
-        // Find barcode column
         const headers = Object.keys(data[0] || {});
         const barcodeCol = headers.find(h =>
           /barcode|code|sku|ean|upc|gtin/i.test(h)
@@ -82,31 +81,31 @@ const CsvUpload = () => {
   }, [processFile]);
 
   return (
-    <div className="flex-1 flex flex-col bg-background p-5 overflow-y-auto">
-      <div className="max-w-md mx-auto w-full space-y-6 animate-fade-in">
+    <div className="flex-1 flex flex-col bg-background px-4 py-4 overflow-y-auto">
+      <div className="w-full max-w-md mx-auto space-y-4 animate-fade-in">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">Data Import</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <h1 className="text-xl font-bold text-foreground tracking-tight">Data Import</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">
             Upload a CSV to power your barcode lookups.
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="glass-subtle rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Database className="w-4 h-4 text-primary" />
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Products</span>
+        <div className="grid grid-cols-2 gap-2.5">
+          <div className="glass-subtle rounded-xl p-3">
+            <div className="flex items-center gap-1.5 mb-1">
+              <Database className="w-3.5 h-3.5 text-primary" />
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">Products</span>
             </div>
-            <p className="text-2xl font-bold text-foreground tabular-nums">{productCount.toLocaleString()}</p>
+            <p className="text-xl font-bold text-foreground tabular-nums">{productCount.toLocaleString()}</p>
           </div>
-          <div className="glass-subtle rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Clock className="w-4 h-4 text-primary" />
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Synced</span>
+          <div className="glass-subtle rounded-xl p-3">
+            <div className="flex items-center gap-1.5 mb-1">
+              <Clock className="w-3.5 h-3.5 text-primary" />
+              <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">Synced</span>
             </div>
-            <p className="text-sm font-semibold text-foreground">
+            <p className="text-xs font-semibold text-foreground">
               {lastUpdated ? formatDistanceToNow(new Date(lastUpdated), { addSuffix: true }) : 'Never'}
             </p>
           </div>
@@ -117,7 +116,7 @@ const CsvUpload = () => {
           onDragOver={e => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
-          className={`block cursor-pointer rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-200 active:scale-[0.98] ${
+          className={`block cursor-pointer rounded-2xl border-2 border-dashed p-6 text-center transition-all duration-200 active:scale-[0.98] ${
             dragOver
               ? 'border-primary bg-primary/5'
               : 'border-border hover:border-muted-foreground/30'
@@ -129,21 +128,21 @@ const CsvUpload = () => {
             onChange={handleFileInput}
             className="hidden"
           />
-          <div className="flex flex-col items-center gap-3">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors ${
+          <div className="flex flex-col items-center gap-2.5">
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${
               dragOver ? 'bg-primary/20' : 'bg-muted'
             }`}>
               {isLoading ? (
-                <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               ) : (
-                <Upload className={`w-6 h-6 ${dragOver ? 'text-primary' : 'text-muted-foreground'}`} />
+                <Upload className={`w-5 h-5 ${dragOver ? 'text-primary' : 'text-muted-foreground'}`} />
               )}
             </div>
             <div>
               <p className="text-sm font-medium text-foreground">
                 {isLoading ? 'Importing...' : 'Drop CSV here or tap to browse'}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-[11px] text-muted-foreground mt-0.5">
                 Requires a barcode/sku column
               </p>
             </div>
@@ -152,28 +151,28 @@ const CsvUpload = () => {
 
         {/* Status messages */}
         {uploadStatus === 'success' && (
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-success/10 border border-success/20 animate-fade-in">
-            <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
-            <p className="text-sm text-foreground">
-              Imported <span className="font-semibold tabular-nums">{importedCount.toLocaleString()}</span> products successfully.
+          <div className="flex items-center gap-2.5 p-3 rounded-xl bg-success/10 border border-success/20 animate-fade-in">
+            <CheckCircle2 className="w-4 h-4 text-success shrink-0" />
+            <p className="text-xs text-foreground">
+              Imported <span className="font-semibold tabular-nums">{importedCount.toLocaleString()}</span> products.
             </p>
           </div>
         )}
 
         {uploadStatus === 'error' && (
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-destructive/10 border border-destructive/20 animate-fade-in">
-            <AlertCircle className="w-5 h-5 text-destructive shrink-0" />
-            <p className="text-sm text-foreground">{errorMsg}</p>
+          <div className="flex items-center gap-2.5 p-3 rounded-xl bg-destructive/10 border border-destructive/20 animate-fade-in">
+            <AlertCircle className="w-4 h-4 text-destructive shrink-0" />
+            <p className="text-xs text-foreground">{errorMsg}</p>
           </div>
         )}
 
         {/* CSV format hint */}
-        <div className="glass-subtle rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <FileSpreadsheet className="w-4 h-4 text-primary" />
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Expected Format</span>
+        <div className="glass-subtle rounded-xl p-3">
+          <div className="flex items-center gap-1.5 mb-2">
+            <FileSpreadsheet className="w-3.5 h-3.5 text-primary" />
+            <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">Expected Format</span>
           </div>
-          <div className="font-mono text-xs text-muted-foreground leading-relaxed bg-background/50 rounded-lg p-3 overflow-x-auto">
+          <div className="font-mono text-[11px] text-muted-foreground leading-relaxed bg-background/50 rounded-lg p-2.5 overflow-x-auto">
             barcode,name,price,category<br />
             8901234567890,Widget Pro,$12.99,Electronics<br />
             7654321098765,Gadget Mini,$7.50,Accessories
@@ -184,9 +183,9 @@ const CsvUpload = () => {
         {productCount > 0 && (
           <button
             onClick={clearAll}
-            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors active:scale-[0.98]"
+            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors active:scale-[0.98]"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-3.5 h-3.5" />
             Clear all data
           </button>
         )}
