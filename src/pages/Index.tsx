@@ -16,9 +16,9 @@ const Index = () => {
   }, [loadProducts]);
 
   return (
-    <div className="flex flex-col h-[100dvh] bg-background">
+    <div className="flex flex-col h-[100dvh] bg-background overflow-hidden">
       <TopBar title="ScanFlow" />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {activeTab === 'scan' && <ScannerView />}
         {activeTab === 'config' && <CsvUpload />}
       </div>

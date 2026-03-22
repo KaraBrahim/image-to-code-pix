@@ -14,14 +14,14 @@ const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   ];
 
   return (
-    <div className="glass sticky bottom-0 z-40 px-6 py-2 flex items-center justify-around">
+    <div className="glass sticky bottom-0 z-40 px-4 py-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] flex items-center justify-around">
       {tabs.map(({ id, icon: Icon, label }) => {
         const active = activeTab === id;
         return (
           <button
             key={id}
             onClick={() => onTabChange(id)}
-            className={`flex flex-col items-center gap-1 px-6 py-2 rounded-xl transition-colors active:scale-95 ${
+            className={`flex flex-col items-center gap-0.5 px-6 py-1.5 rounded-xl transition-colors active:scale-95 ${
               active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
